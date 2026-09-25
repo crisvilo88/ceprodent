@@ -251,9 +251,11 @@ function showAdminModule(name) {
 
     if (name === 'estudiantes') {
 
-        loadAdminProgramasSelect();
+        // Cargar primero el selector de programas y esperar a que
+        // termine antes de continuar con el resto del módulo.
+        await loadAdminProgramasSelect();
 
-        loadAdminUsersList(
+        await loadAdminUsersList(
             'estudiante'
         );
 
@@ -633,47 +635,84 @@ async function createAdminUser(
 ====================================================================== */
 
 async function loadAdminProgramasSelect() {
-    const select = document.getElementById('estudiantePrograma');
-    if (!select) return;
 
-    select.innerHTML = '<option value="">Cargando programas...</option>';
+    const select =
+        document.getElementById(
+            'estudiantePrograma'
+        );
+
+    if (!select) {
+        console.warn(
+            'No se encontró #estudiantePrograma al cargar programas.'
+        );
+        return;
+    }
+
     select.disabled = true;
+    select.innerHTML =
+        '<option value="">Cargando programas...</option>';
 
     try {
-        // Evita reutilizar una respuesta vacía anterior, sin desactivar
-        // el caché optimizado del resto de consultas.
+
+        // Solo se invalida la caché REST en el momento de cargar
+        // este selector. El resto de lecturas conserva la optimización.
         if (typeof db.clearRestCache === 'function') {
             db.clearRestCache();
         }
 
-        const { data, error } = await db
+        const {
+            data,
+            error,
+        } = await db
             .from('programas')
             .select('id, nombre')
             .eq('activo', true)
             .order('nombre');
 
-        if (error) throw error;
-
-        select.innerHTML = '<option value="">Seleccione un programa</option>';
-
-        (data || []).forEach(programa => {
-            const option = document.createElement('option');
-            option.value = programa.id;
-            option.textContent = programa.nombre;
-            select.appendChild(option);
-        });
-
-        if (!data || data.length === 0) {
-            select.innerHTML = '<option value="">No hay programas activos</option>';
+        if (error) {
+            console.error(
+                'Error al cargar programas para estudiantes:',
+                error
+            );
+            throw error;
         }
-    } catch (error) {
-        console.error('Error cargando programas para estudiante:', error);
-        select.innerHTML = '<option value="">Error al cargar programas</option>';
-    } finally {
-        select.disabled = false;
-    }
-}
 
+        const programas = data || [];
+
+        select.innerHTML =
+            '<option value="">— Seleccione un programa —</option>' +
+            programas.map(programa => `
+                <option value="${programa.id}">
+                    ${escapeHTML(programa.nombre)}
+                </option>
+            `).join('');
+
+        if (!programas.length) {
+            select.innerHTML =
+                '<option value="">No hay programas activos</option>';
+        }
+
+        console.info(
+            `Programas cargados en selector de estudiantes: ${programas.length}`
+        );
+
+    } catch (error) {
+
+        select.innerHTML =
+            '<option value="">Error al cargar programas</option>';
+
+        console.error(
+            'No fue posible cargar los programas:',
+            error
+        );
+
+    } finally {
+
+        select.disabled = false;
+
+    }
+
+}
 
 async function loadAdminProgramasList() {
 
