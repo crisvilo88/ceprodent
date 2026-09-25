@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CEPRODENT · Sistema de Evaluación</title>
+
+    <meta
+        name="description"
+        content="Plataforma de evaluaciones académicas de CEPRODENT"
+    >
+
+    <!-- ICONOS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <!-- TIPOGRAFÍAS -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- ESTILOS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="icon" href="img/favicon.jpg" type="image/x-icon">
+</head>
+
+
+<body>
+
+    <!-- =========================================================
+         NOTIFICACIONES
+    ========================================================== -->
+
+    <div
+        id="toastContainer"
+        class="toast-container"
+        aria-live="polite"
+    ></div>
+
+
+    <!-- =========================================================
+         ENCABEZADO PRINCIPAL
+    ========================================================== -->
+
+    <header
+        id="mainHeader"
+        class="hidden"
+    >
+
+        <div class="navbar">
+
+            <div class="logo-container">
+
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div class="logo-text">
+                    <h1>CEPRODENT</h1>
+                    <span>Sistema de Evaluación</span>
+                </div>
+
+            </div>
+
+
+            <div
+                id="userNav"
+                class="user-nav-info"
+            >
+
+                <div class="user-chip">
+
+                    <span
+                        id="userRoleBadge"
+                        class="badge-role"
+                    >
+                        Rol
+                    </span>
+
+                    <span id="userNameDisplay">—</span>
+
+                </div>
+
+
+                <button
+                    class="btn-logout"
+                    id="btnLogout"
+                    type="button"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Salir</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         CONTENIDO PRINCIPAL
+    ========================================================== -->
+
+    <main id="mainContent">
+
+
+        <!-- =====================================================
+             AUTENTICACIÓN
+        ====================================================== -->
+
+        <section
+            id="authView"
+            class="view auth-wrapper"
+        >
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+
+                    <div class="auth-emblem">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+
+                    <h2>Bienvenido a CEPRODENT</h2>
+
+                    <p>
+                        Ingresa con tu correo institucional
+                    </p>
+
+                </div>
+
+
+                <div class="auth-body">
+
+                    <!-- LOGIN -->
+
+                    <form
+                        id="loginForm"
+                        novalidate
+                    >
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Correo institucional
+                            </label>
+
+                            <div class="input-icon-wrapper">
+
+                                <i class="fa-solid fa-envelope"></i>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    class="form-control"
+                                    placeholder="nombre@ceprodent.edu.co"
+                                    required
+                                    autocomplete="username"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="password">
+                                Contraseña
+                            </label>
+
+                            <div class="input-icon-wrapper">
+
+                                <i class="fa-solid fa-lock"></i>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    class="form-control"
+                                    placeholder="••••••••"
+                                    required
+                                    autocomplete="current-password"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                            id="btnLogin"
+                        >
+                            <span>Iniciar sesión</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+
+                        <div class="auth-actions">
+
+                            <button
+                                type="button"
+                                class="btn-ghost"
+                                id="btnShowRegister"
+                                style="width:100%; margin-top:0.5rem;"
+                            >
+                                <i class="fa-solid fa-user-plus"></i>
+                                Crear cuenta como estudiante
+                            </button>
+
+                        </div>
+
+
+                        <p class="auth-hint">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            Los estudiantes pueden crear su propia cuenta.
+                            Los docentes son creados por la institución.
+
+                        </p>
+
+                    </form>
+
+
+                    <!-- REGISTRO -->
+
+                    <form
+                        id="registerForm"
+                        class="hidden"
+                        novalidate
+                    >
+
+                        <div
+                            class="auth-header"
+                            style="margin-bottom:1.2rem;"
+                        >
+
+                            <div class="auth-emblem">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+
+                            <h2>Crear cuenta</h2>
+
+                            <p>
+                                Registro de estudiante CEPRODENT
+                            </p>
+
+                        </div>
+
+
+                        <div class="options-grid">
+
+                            <div class="form-group">
+
+                                <label for="registerNombres">
+                                    Nombres
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="registerNombres"
+                                    class="form-control"
+                                    placeholder="Tus nombres"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="registerApellidos">
+                                    Apellidos
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="registerApellidos"
+                                    class="form-control"
+                                    placeholder="Tus apellidos"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="registerPrograma">
+                                Programa académico
+                            </label>
+
+                            <select
+                                id="registerPrograma"
+                                class="form-control"
+                                required
+                            >
+                                <option value="">
+                                    Cargando programas...
+                                </option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="registerEmail">
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                type="email"
+                                id="registerEmail"
+                                class="form-control"
+                                placeholder="correo@ejemplo.com"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="registerPassword">
+                                Contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="registerPassword"
+                                class="form-control"
+                                placeholder="Mínimo 6 caracteres"
+                                minlength="6"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="registerPasswordConfirm">
+                                Confirmar contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="registerPasswordConfirm"
+                                class="form-control"
+                                placeholder="Repite tu contraseña"
+                                minlength="6"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                            id="btnRegister"
+                        >
+                            <i class="fa-solid fa-user-plus"></i>
+                            Crear mi cuenta
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn-ghost"
+                            id="btnBackToLogin"
+                            style="width:100%; margin-top:0.75rem;"
+                        >
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Volver al inicio de sesión
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PANEL DEL ESTUDIANTE
+        ====================================================== -->
+
+        <section
+            id="studentView"
+            class="view hidden"
+        >
+
+            <div class="dashboard-header">
+
+                <div>
+
+                    <h2>Mis evaluaciones</h2>
+
+                    <p
+                        id="studentSubtitle"
+                        class="text-muted"
+                    >
+                        Estos son los módulos en los que estás inscrito.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="btn-ghost"
+                    id="btnRefreshStudent"
+                    type="button"
+                >
+                    <i class="fa-solid fa-rotate"></i>
+                    Actualizar
+                </button>
+
+            </div>
+
+
+            <div
+                id="studentModulesGrid"
+                class="cards-grid"
+            ></div>
+
+
+            <div
+                id="studentEmptyState"
+                class="empty-state hidden"
+            >
+
+                <i class="fa-solid fa-inbox"></i>
+
+                <h3>Aún no tienes módulos asignados</h3>
+
+                <p>
+                    Cuando tu docente te inscriba en un módulo,
+                    aparecerá aquí automáticamente.
+                </p>
+
+            </div>
+
+
+            <div class="section-block">
+
+                <h3 class="section-title">
+
+                    <i class="fa-solid fa-chart-line"></i>
+                    Historial de calificaciones
+
+                </h3>
+
+                <div
+                    id="studentResultsList"
+                    class="results-list"
+                ></div>
+
+            </div>
+
+
+            <div class="section-block">
+
+                <h3 class="section-title">
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    Mis notas finales
+
+                </h3>
+
+                <p class="text-muted">
+                    Consulta tu promedio de evaluaciones y
+                    tu calificación final por módulo.
+                </p>
+
+
+                <div
+                    id="studentGradesList"
+                    class="results-list"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PANEL DEL DOCENTE
+        ====================================================== -->
+
+        <section
+            id="teacherView"
+            class="view hidden"
+        >
+
+            <div id="teacherModulesPanel">
+
+                <div class="dashboard-header">
+
+                    <div>
+
+                        <h2>Panel del docente</h2>
+
+                        <p class="text-muted">
+                            Gestiona tus programas, módulos,
+                            bancos de preguntas y estudiantes.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="btn-primary btn-compact"
+                        id="btnNuevoModulo"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Nuevo módulo
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="teacherModulesGrid"
+                    class="cards-grid"
+                ></div>
+
+
+                <div
+                    id="teacherEmptyState"
+                    class="empty-state hidden"
+                >
+
+                    <i class="fa-solid fa-chalkboard"></i>
+
+                    <h3>Todavía no tienes módulos</h3>
+
+                    <p>
+                        Crea tu primer módulo para empezar.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETALLE DEL MÓDULO -->
+
+            <div
+                id="moduleDetailPanel"
+                class="hidden"
+            >
+
+                <button
+                    class="btn-back"
+                    id="btnBackToModules"
+                    type="button"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Volver a mis módulos
+                </button>
+
+
+                <div class="teacher-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <div
+                                class="panel-title"
+                                id="detailModuleName"
+                            >
+                                Módulo
+                            </div>
+
+                            <span
+                                class="panel-subtitle"
+                                id="detailProgramName"
+                            >
+                                Programa
+                            </span>
+
+                        </div>
+
+
+                        <div class="switch-container">
+
+                            <span>Evaluación:</span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="evalToggle"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                            <strong id="toggleLabel">
+                                DESACTIVADA
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tabs">
+
+                        <button
+                            class="tab-btn active"
+                            data-tab="preguntas"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-list-check"></i>
+                            Banco de preguntas
+
+                            <span
+                                class="tab-count"
+                                id="tabPreguntasCount"
+                            >
+                                0/20
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="tab-btn"
+                            data-tab="estudiantes"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-user-graduate"></i>
+                            Estudiantes
+
+                            <span
+                                class="tab-count"
+                                id="tabEstudiantesCount"
+                            >
+                                0
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="tab-btn"
+                            data-tab="resultados"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-chart-simple"></i>
+                            Resultados
+                        </button>
+
+
+                        <button
+                            class="tab-btn"
+                            data-tab="notas"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            Notas
+                        </button>
+
+                    </div>
+
+
+                    <!-- PREGUNTAS -->
+
+                    <div
+                        class="tab-panel"
+                        id="tabPanelPreguntas"
+                    >
+
+                        <form
+                            id="questionForm"
+                            class="question-form"
+                        >
+
+                            <div class="form-group">
+
+                                <label for="qText">Pregunta</label>
+
+                                <input
+                                    type="text"
+                                    id="qText"
+                                    class="form-control"
+                                    placeholder="Escribe la pregunta..."
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="options-grid">
+
+                                <div class="option-input">
+                                    <span class="option-badge">A</span>
+                                    <input type="text" id="qOptionA" class="form-control" placeholder="Opción A" required>
+                                </div>
+
+                                <div class="option-input">
+                                    <span class="option-badge">B</span>
+                                    <input type="text" id="qOptionB" class="form-control" placeholder="Opción B" required>
+                                </div>
+
+                                <div class="option-input">
+                                    <span class="option-badge">C</span>
+                                    <input type="text" id="qOptionC" class="form-control" placeholder="Opción C" required>
+                                </div>
+
+                                <div class="option-input">
+                                    <span class="option-badge">D</span>
+                                    <input type="text" id="qOptionD" class="form-control" placeholder="Opción D" required>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="qCorrect">
+                                    Respuesta correcta
+                                </label>
+
+                                <select
+                                    id="qCorrect"
+                                    class="form-control"
+                                    required
+                                >
+                                    <option value="A">Opción A</option>
+                                    <option value="B">Opción B</option>
+                                    <option value="C">Opción C</option>
+                                    <option value="D">Opción D</option>
+                                </select>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn-primary btn-compact"
+                                id="btnAddQuestion"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                                Agregar pregunta
+                            </button>
+
+                        </form>
+
+
+                        <div
+                            id="questionsList"
+                            class="questions-list"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- ESTUDIANTES -->
+
+                    <div
+                        class="tab-panel hidden"
+                        id="tabPanelEstudiantes"
+                    >
+
+                        <form
+                            id="enrollForm"
+                            class="enroll-form"
+                        >
+
+                            <div class="form-group">
+
+                                <label for="enrollEmail">
+                                    Correo del estudiante
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="enrollEmail"
+                                    class="form-control"
+                                    placeholder="estudiante@ceprodent.edu.co"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn-primary btn-compact"
+                                id="btnEnroll"
+                            >
+                                <i class="fa-solid fa-user-plus"></i>
+                                Inscribir
+                            </button>
+
+                        </form>
+
+
+                        <div
+                            id="createStudentInline"
+                            class="question-form hidden"
+                        >
+
+                            <p class="text-muted">
+
+                                <i class="fa-solid fa-circle-info"></i>
+
+                                No existe una cuenta con el correo
+                                <strong id="createStudentEmailPreview"></strong>.
+
+                                Puedes crearla aquí mismo.
+
+                            </p>
+
+
+                            <form id="createStudentForm">
+
+                                <div class="options-grid">
+
+                                    <div class="form-group">
+                                        <label>Nombres</label>
+                                        <input type="text" id="newStudentNombres" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Apellidos</label>
+                                        <input type="text" id="newStudentApellidos" class="form-control" required>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="newStudentPassword">
+                                        Contraseña temporal
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="newStudentPassword"
+                                        class="form-control"
+                                        minlength="6"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <button
+                                    type="submit"
+                                    class="btn-primary btn-compact"
+                                    id="btnCreateStudent"
+                                >
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    Crear cuenta e inscribir
+                                </button>
+
+                            </form>
+
+                        </div>
+
+
+                        <div
+                            id="studentsList"
+                            class="students-list"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- RESULTADOS -->
+
+                    <div
+                        class="tab-panel hidden"
+                        id="tabPanelResultados"
+                    >
+
+                        <div
+                            id="moduleResultsList"
+                            class="results-list"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- NOTAS -->
+
+                    <div
+                        class="tab-panel hidden"
+                        id="tabPanelNotas"
+                    >
+
+                        <div
+                            id="moduleGradesList"
+                            class="results-list"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PANEL DEL ADMINISTRADOR
+        ====================================================== -->
+
+        <section
+            id="adminView"
+            class="view hidden"
+        >
+
+            <div class="dashboard-header">
+
+                <div>
+
+                    <h2>Panel de administración</h2>
+
+                    <p class="text-muted">
+                        Gestiona la información académica de CEPRODENT.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DASHBOARD ADMINISTRATIVO
+            ================================================== -->
+
+            <div id="adminDashboardPanel">
+
+                <div class="admin-stats-grid">
+
+                    <div class="admin-stat-card">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <div>
+                            <span id="statDocentesActivos">0</span>
+                            <small>Docentes activos</small>
+                        </div>
+                    </div>
+
+                    <div class="admin-stat-card">
+                        <i class="fa-solid fa-user-slash"></i>
+                        <div>
+                            <span id="statDocentesInactivos">0</span>
+                            <small>Docentes inactivos</small>
+                        </div>
+                    </div>
+
+                    <div class="admin-stat-card">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <div>
+                            <span id="statEstudiantesActivos">0</span>
+                            <small>Estudiantes activos</small>
+                        </div>
+                    </div>
+
+                    <div class="admin-stat-card">
+                        <i class="fa-solid fa-user-clock"></i>
+                        <div>
+                            <span id="statEstudiantesInactivos">0</span>
+                            <small>Estudiantes inactivos</small>
+                        </div>
+                    </div>
+
+                    <div class="admin-stat-card">
+                        <i class="fa-solid fa-book-open"></i>
+                        <div>
+                            <span id="statProgramas">0</span>
+                            <small>Programas activos</small>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- TARJETAS DEL ADMINISTRADOR -->
+
+                <div class="admin-modules-grid">
+
+                    <button
+                        type="button"
+                        class="admin-module-card"
+                        data-admin-module="docentes"
+                    >
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <strong>Módulo Docentes</strong>
+                        <span>Crear y administrar docentes</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="admin-module-card"
+                        data-admin-module="estudiantes"
+                    >
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <strong>Módulo Estudiantes</strong>
+                        <span>Crear y administrar estudiantes</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="admin-module-card"
+                        data-admin-module="programas"
+                    >
+                        <i class="fa-solid fa-book"></i>
+                        <strong>Módulo Programas</strong>
+                        <span>Administrar programas académicos</span>
+                    </button>
+
+
+                    <!-- NUEVA TARJETA REPORTES -->
+
+                    <button
+                        type="button"
+                        class="admin-module-card"
+                        data-admin-module="reportes"
+                    >
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <strong>Reportes</strong>
+                        <span>Consultar y exportar información académica</span>
+                    </button>
+
+                </div>
+
+
+                <div class="section-block">
+
+                    <h3 class="section-title">
+
+                        <i class="fa-solid fa-ranking-star"></i>
+                        Programas con más estudiantes
+
+                    </h3>
+
+                    <div
+                        id="adminTopProgramas"
+                        class="students-list"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADMINISTRACIÓN DE DOCENTES
+            ================================================== -->
+
+            <div
+                id="adminDocentesPanel"
+                class="admin-module-panel hidden"
+            >
+
+                <button
+                    type="button"
+                    class="btn-secondary btn-compact admin-back"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Volver al Dashboard
+                </button>
+
+
+                <div class="dashboard-header">
+
+                    <div>
+                        <h2>Módulo Docentes</h2>
+                        <p class="text-muted">
+                            Crea y administra los docentes institucionales.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="teacher-panel">
+
+                    <form
+                        id="adminCreateDocenteForm"
+                        class="question-form"
+                    >
+
+                        <div class="options-grid">
+
+                            <div class="form-group">
+                                <label>Nombres</label>
+                                <input id="docenteNombres" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Apellidos</label>
+                                <input id="docenteApellidos" class="form-control" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Correo</label>
+                            <input type="email" id="docenteEmail" class="form-control" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Contraseña temporal</label>
+                            <input type="password" id="docentePassword" class="form-control" minlength="6" required>
+                        </div>
+
+
+                        <button
+                            class="btn-primary btn-compact"
+                            id="btnCrearDocente"
+                        >
+                            <i class="fa-solid fa-user-plus"></i>
+                            Crear docente
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="section-block">
+
+                    <h3 class="section-title">
+                        Docentes registrados
+                    </h3>
+
+                    <div
+                        id="adminDocentesList"
+                        class="students-list"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADMINISTRACIÓN DE ESTUDIANTES
+            ================================================== -->
+
+            <div
+                id="adminEstudiantesPanel"
+                class="admin-module-panel hidden"
+            >
+
+                <button
+                    type="button"
+                    class="btn-secondary btn-compact admin-back"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Volver al Dashboard
+                </button>
+
+
+                <div class="dashboard-header">
+
+                    <div>
+                        <h2>Módulo Estudiantes</h2>
+                        <p class="text-muted">
+                            Todo estudiante debe estar asociado a un programa.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="teacher-panel">
+
+                    <form
+                        id="adminCreateEstudianteForm"
+                        class="question-form"
+                    >
+
+                        <div class="options-grid">
+
+                            <div class="form-group">
+                                <label>Nombres</label>
+                                <input id="estudianteNombres" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Apellidos</label>
+                                <input id="estudianteApellidos" class="form-control" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Programa</label>
+
+                            <select
+                                id="estudiantePrograma"
+                                class="form-control"
+                                required
+                            >
+                                <option value="">
+                                    Cargando programas...
+                                </option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Correo</label>
+                            <input type="email" id="estudianteEmail" class="form-control" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Contraseña temporal</label>
+                            <input type="password" id="estudiantePassword" class="form-control" minlength="6" required>
+                        </div>
+
+
+                        <button
+                            class="btn-primary btn-compact"
+                            id="btnCrearEstudiante"
+                        >
+                            <i class="fa-solid fa-user-plus"></i>
+                            Crear estudiante
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="section-block">
+
+                    <h3 class="section-title">
+                        Estudiantes registrados
+                    </h3>
+
+                    <div
+                        id="adminEstudiantesList"
+                        class="students-list"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADMINISTRACIÓN DE PROGRAMAS
+            ================================================== -->
+
+            <div
+                id="adminProgramasPanel"
+                class="admin-module-panel hidden"
+            >
+
+                <button
+                    type="button"
+                    class="btn-secondary btn-compact admin-back"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Volver al Dashboard
+                </button>
+
+
+                <div class="dashboard-header">
+
+                    <div>
+                        <h2>Módulo Programas</h2>
+                        <p class="text-muted">
+                            Crea y administra los programas académicos.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="teacher-panel">
+
+                    <form
+                        id="adminCreateProgramaForm"
+                        class="question-form"
+                    >
+
+                        <div class="form-group">
+
+                            <label>Nombre del programa</label>
+
+                            <input
+                                id="adminProgramaNombre"
+                                class="form-control"
+                                placeholder="Ej. Técnico en Sistemas"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            class="btn-primary btn-compact"
+                            id="btnCrearPrograma"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            Crear programa
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="section-block">
+
+                    <h3 class="section-title">
+                        Programas creados
+                    </h3>
+
+                    <div
+                        id="adminProgramasList"
+                        class="students-list"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 NUEVO PANEL: REPORTES
+            ================================================== -->
+
+            <div
+                id="adminReportesPanel"
+                class="admin-module-panel hidden"
+            >
+
+                <button
+                    type="button"
+                    class="btn-secondary btn-compact admin-back"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Volver al Dashboard
+                </button>
+
+
+                <div class="dashboard-header">
+
+                    <div>
+
+                        <h2>
+                            <i class="fa-solid fa-chart-pie"></i>
+                            Centro de Reportes
+                        </h2>
+
+                        <p class="text-muted">
+                            Consulta, analiza y exporta la información académica.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPCIONES DE REPORTES -->
+
+                <div class="admin-modules-grid">
+
+
+                    <button
+                        type="button"
+                        class="admin-module-card"
+                        id="btnReporteModulos"
+                        data-report="modulos"
+                    >
+                        <i class="fa-solid fa-book-open"></i>
+                        <strong>Módulos</strong>
+                        <span>Información de módulos y docentes</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="admin-module-card"
+                        id="btnReporteCalificaciones"
+                        data-report="calificaciones"
+                    >
+                        <i class="fa-solid fa-chart-line"></i>
+                        <strong>Calificaciones</strong>
+                        <span>Resultados y notas académicas</span>
+                    </button>
+
+                </div>
+
+
+                <!-- ÁREA DE RESULTADOS -->
+
+                <div class="section-block">
+
+                    <div class="section-title-row">
+
+                        <div>
+
+                            <h3 class="section-title">
+
+                                <i class="fa-solid fa-file-lines"></i>
+                                Resultado del reporte
+
+                            </h3>
+
+                            <p
+                                id="adminReportSubtitle"
+                                class="text-muted"
+                            >
+                                Selecciona un reporte para consultar la información.
+                            </p>
+
+                        </div>
+
+
+                        <!-- BOTONES DE EXPORTACIÓN -->
+
+                        <div
+                            id="adminReportExportActions"
+                            class="admin-actions hidden"
+                        >
+
+                            <button
+                                type="button"
+                                class="btn-secondary btn-compact"
+                                id="btnExportExcel"
+                            >
+                                <i class="fa-solid fa-file-excel"></i>
+                                Excel
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn-primary btn-compact"
+                                id="btnExportPDF"
+                            >
+                                <i class="fa-solid fa-file-pdf"></i>
+                                PDF
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONTENIDO GENERADO DINÁMICAMENTE -->
+
+                    <div
+                        id="adminReportContent"
+                        class="hidden"
+                    >
+
+                        <h3
+                            id="adminReportTitle"
+                            class="section-title"
+                        ></h3>
+
+                        <div id="adminReportFilters"></div>
+
+                    </div>
+
+
+                    <div
+                        id="adminReportResults"
+                        class="results-list"
+                    >
+
+                        <div class="empty-state">
+
+                            <i class="fa-solid fa-chart-column"></i>
+
+                            <h3>Centro de información académica</h3>
+
+                            <p>
+                                Selecciona una categoría para generar
+                                un reporte detallado.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             MODAL NUEVO MÓDULO
+        ====================================================== -->
+
+        <div
+            id="newModuleModal"
+            class="modal-overlay hidden"
+        >
+
+            <div class="modal-card">
+
+                <div class="modal-header">
+
+                    <h3>
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        Nuevo módulo
+                    </h3>
+
+                    <button
+                        class="modal-close"
+                        id="btnCloseModal"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <form
+                    id="newModuleForm"
+                    class="modal-body"
+                >
+
+                    <div class="form-group">
+
+                        <label for="programaSelect">
+                            Programa
+                        </label>
+
+                        <select
+                            id="programaSelect"
+                            class="form-control"
+                        >
+                            <option value="">
+                                — Crear un programa nuevo —
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        class="form-group"
+                        id="newProgramGroup"
+                    >
+
+                        <label for="programaNuevo">
+                            Nombre del nuevo programa
+                        </label>
+
+                        <input
+                            type="text"
+                            id="programaNuevo"
+                            class="form-control"
+                            placeholder="Ej. Técnico en Sistemas"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="moduloNombre">
+                            Nombre del módulo
+                        </label>
+
+                        <input
+                            type="text"
+                            id="moduloNombre"
+                            class="form-control"
+                            placeholder="Ej. Redes de Computadores"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="moduloDescripcion">
+                            Descripción
+                        </label>
+
+                        <input
+                            type="text"
+                            id="moduloDescripcion"
+                            class="form-control"
+                            placeholder="Breve descripción del módulo"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                        id="btnCrearModulo"
+                    >
+                        <i class="fa-solid fa-check"></i>
+                        Crear módulo
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             EVALUACIÓN DEL ESTUDIANTE
+        ====================================================== -->
+
+        <section
+            id="quizView"
+            class="view hidden"
+        >
+
+            <div class="quiz-container">
+
+                <div class="quiz-header">
+
+                    <div>
+
+                        <h3 id="quizModuleName">
+                            Módulo
+                        </h3>
+
+                        <span id="quizProgress">
+                            Pregunta 1 de 12
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="quiz-timer"
+                        id="quizTimer"
+                    >
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        <span id="quizTimerText">
+                            15:00
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quiz-progress-bar">
+
+                    <div
+                        class="quiz-progress-fill"
+                        id="quizProgressFill"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="quiz-body"
+                    id="quizBody"
+                ></div>
+
+
+                <div class="quiz-footer">
+
+                    <button
+                        class="btn-secondary"
+                        id="btnPrevQuestion"
+                        type="button"
+                        disabled
+                    >
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Anterior
+                    </button>
+
+
+                    <div
+                        class="quiz-dots"
+                        id="quizDots"
+                    ></div>
+
+
+                    <button
+                        class="btn-primary btn-compact"
+                        id="btnNextQuestion"
+                        type="button"
+                    >
+                        Siguiente
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RESULTADO DE LA EVALUACIÓN
+        ====================================================== -->
+
+        <section
+            id="resultView"
+            class="view hidden"
+        >
+
+            <div class="result-card">
+
+                <div class="score-circle">
+
+                    <span
+                        class="score-number"
+                        id="scoreNumber"
+                    >
+                        0.0
+                    </span>
+
+                    <span class="score-max">
+                        de 10.0
+                    </span>
+
+                </div>
+
+
+                <h2 id="resultTitle">
+                    ¡Evaluación finalizada!
+                </h2>
+
+
+                <p
+                    id="resultDetail"
+                    class="text-muted"
+                >
+                    Has respondido correctamente X de 12 preguntas.
+                </p>
+
+
+                <button
+                    class="btn-primary btn-compact"
+                    id="btnBackToDashboard"
+                    type="button"
+                >
+                    <i class="fa-solid fa-house"></i>
+                    Volver al inicio
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         PIE DE PÁGINA
+    ========================================================== -->
+
+    <footer>
+        &copy; 2026 CEPRODENT — Institución Educativa.
+        Todos los derechos reservados.
+    </footer>
+
+
+    <!-- =========================================================
+         LIBRERÍAS Y SCRIPTS
+    ========================================================== -->
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Configuración -->
+    <script src="js/supabaseClient.js"></script>
+
+    <!-- Utilidades -->
+    <script src="js/ui.js"></script>
+
+    <!-- Autenticación -->
+    <script src="js/auth.js"></script>
+
+    <!-- Administración -->
+    <script src="js/admin.js"></script>
+
+    <!-- Panel docente -->
+    <script src="js/teacher.js"></script>
+
+    <!-- Evaluaciones -->
+    <script src="js/quiz.js"></script>
+
+    <!-- Panel estudiante -->
+    <script src="js/student.js"></script>
+
+    <!-- Inicialización general -->
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
