@@ -633,49 +633,45 @@ async function createAdminUser(
 ====================================================================== */
 
 async function loadAdminProgramasSelect() {
+    const select = document.getElementById('estudiantePrograma');
+    if (!select) return;
 
-    const select =
-        document.getElementById(
-            'estudiantePrograma'
-        );
+    select.innerHTML = '<option value="">Cargando programas...</option>';
+    select.disabled = true;
 
-    if (!select) {
-        return;
+    try {
+        // Evita reutilizar una respuesta vacía anterior, sin desactivar
+        // el caché optimizado del resto de consultas.
+        if (typeof db.clearRestCache === 'function') {
+            db.clearRestCache();
+        }
+
+        const { data, error } = await db
+            .from('programas')
+            .select('id, nombre')
+            .eq('activo', true)
+            .order('nombre');
+
+        if (error) throw error;
+
+        select.innerHTML = '<option value="">Seleccione un programa</option>';
+
+        (data || []).forEach(programa => {
+            const option = document.createElement('option');
+            option.value = programa.id;
+            option.textContent = programa.nombre;
+            select.appendChild(option);
+        });
+
+        if (!data || data.length === 0) {
+            select.innerHTML = '<option value="">No hay programas activos</option>';
+        }
+    } catch (error) {
+        console.error('Error cargando programas para estudiante:', error);
+        select.innerHTML = '<option value="">Error al cargar programas</option>';
+    } finally {
+        select.disabled = false;
     }
-
-
-    const {
-        data,
-        error,
-    } = await db
-        .from('programas')
-        .select('id, nombre')
-        .eq('activo', true)
-        .order('nombre');
-
-
-    if (error) {
-
-        select.innerHTML =
-            '<option value="">' +
-            'No se pudieron cargar programas' +
-            '</option>';
-
-        return;
-    }
-
-
-    select.innerHTML =
-        '<option value="">' +
-        '— Seleccione un programa —' +
-        '</option>' +
-
-        (data || []).map(programa => `
-            <option value="${programa.id}">
-                ${escapeHTML(programa.nombre)}
-            </option>
-        `).join('');
-
 }
 
 
