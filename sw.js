@@ -3,7 +3,7 @@
  * Caché de recursos estáticos + actualización automática
  */
 
-const CACHE_NAME = 'ceprodent-v3';
+const CACHE_NAME = 'ceprodent-v5';
 
 const APP_SHELL = [
     './',
